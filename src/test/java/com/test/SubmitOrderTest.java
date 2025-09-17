@@ -1,43 +1,36 @@
 package com.test;
 
 import com.pom.*;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.List;
 
-public class SubmitOrderTest {
+public class SubmitOrderTest extends BaseTest {
     static String productName = "ADIDAS ORIGINAL";
 
-    public static void main(String[] args) {
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().deleteAllCookies();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        LandingPage lp = new LandingPage(driver);
-        lp.goTo();
+    @Test
+    public void submitOrder() throws Exception {
+        // Ensure driver is initialized
 
+        LandingPage lp = launchApplication();
         ProductCataloge pc = lp.loginApplication("dhirajbhosale2730@gmail.com", "Dhiraj123");
 
         List<WebElement> products = pc.getProductList();
 
         pc.addProductToCart(productName);
-        pc.goToCartPage();
+        CartPage cartPage = pc.goToCartPage();
 
-
-        CartPage cartPage = new CartPage(driver);
         boolean match = cartPage.verifyProductDisplay(productName);
         Assert.assertTrue(match);
+
         CheckoutPage checkoutPage = cartPage.goToCheckout();
-        checkoutPage.selectCountry("india");
+        checkoutPage.selectCountry("British Indian Ocean Territory");
         ConfirmationPage confirmationPage = checkoutPage.submitOrder();
         String confirmMessage = confirmationPage.verifyConfirmMessage();
         Assert.assertTrue(confirmMessage.equalsIgnoreCase("THANKYOU FOR THE ORDER."));
 
+        driver.quit(); // Clean up
     }
 }
