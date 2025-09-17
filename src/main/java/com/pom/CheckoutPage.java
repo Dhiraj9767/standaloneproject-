@@ -21,4 +21,13 @@ public class CheckoutPage extends AbstractComponent {
 
     @FindBy(css = ".action__submit")
     WebElement submitBttn;
+
+    @FindBy(xpath = "(//button[contains(@class,'ta-item ')])[2]")
+    WebElement selectCountry;
+
+    public void selectCountry(String countryName) {
+        country.sendKeys(countryName);
+        waitForElementToAppear(org.openqa.selenium.By.cssSelector(".ta-results"));
+        selectCountry.click();
+    }
 }
