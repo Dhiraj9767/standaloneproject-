@@ -8,7 +8,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 
-
 public class LandingPage {
     WebDriver driver;
 
@@ -27,27 +26,21 @@ public class LandingPage {
     @FindBy(id = "login")
     WebElement loginBttn;
 
-    public void loginApplication(String email, String pass) {
+    public ProductCataloge loginApplication(String email, String pass) {
         userName.sendKeys(email);
         password.sendKeys(pass);
         loginBttn.click();
 
-    }
+        ProductCataloge pc = new ProductCataloge(driver);
+        return pc;
 
+    }
 
 
     public void goTo() {
         driver.get("https://rahulshettyacademy.com/client");
 
     }
-
-
-
-
-
-
-
-
 
 
 }
