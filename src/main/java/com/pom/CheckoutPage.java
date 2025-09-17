@@ -1,6 +1,7 @@
 package com.pom;
 
 import com.AbstractComponent.AbstractComponent;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,7 +14,7 @@ public class CheckoutPage extends AbstractComponent {
         super(driver);
         this.driver = driver;
         PageFactory.initElements(driver, this);
-        
+
     }
 
     @FindBy(xpath = "//input[@placeholder='Select Country']")
@@ -25,9 +26,18 @@ public class CheckoutPage extends AbstractComponent {
     @FindBy(xpath = "(//button[contains(@class,'ta-item ')])[2]")
     WebElement selectCountry;
 
+
+    By results = By.cssSelector(".ta-results");
+
+
     public void selectCountry(String countryName) {
         country.sendKeys(countryName);
-        waitForElementToAppear(org.openqa.selenium.By.cssSelector(".ta-results"));
+        waitForElementToAppear(results);
         selectCountry.click();
+    }
+
+    public ConfirmationPage submitOrder() {
+        submitBttn.click();
+        return new ConfirmationPage(driver);
     }
 }

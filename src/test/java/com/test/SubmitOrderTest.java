@@ -1,8 +1,6 @@
 package com.test;
 
-import com.pom.CartPage;
-import com.pom.LandingPage;
-import com.pom.ProductCataloge;
+import com.pom.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -24,19 +22,20 @@ public class SubmitOrderTest {
         LandingPage lp = new LandingPage(driver);
         lp.goTo();
 
-        ProductCataloge pc =lp.loginApplication("dhirajbhosale2730@gmail.com", "Dhiraj123");
+        ProductCataloge pc = lp.loginApplication("dhirajbhosale2730@gmail.com", "Dhiraj123");
 
         List<WebElement> products = pc.getProductList();
 
         pc.addProductToCart(productName);
-         pc.goToCartPage();
+        pc.goToCartPage();
 
 
         CartPage cartPage = new CartPage(driver);
         boolean match = cartPage.verifyProductDisplay(productName);
         Assert.assertTrue(match);
-        cartPage.goToCheckout();
-
+        CheckoutPage checkoutPage = cartPage.goToCheckout();
+        checkoutPage.selectCountry("india");
+        ConfirmationPage confirmationPage = checkoutPage.submitOrder();
 
     }
 }
