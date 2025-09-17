@@ -36,6 +36,8 @@ public class SubmitOrderTest {
         CheckoutPage checkoutPage = cartPage.goToCheckout();
         checkoutPage.selectCountry("india");
         ConfirmationPage confirmationPage = checkoutPage.submitOrder();
+        String confirmMessage = confirmationPage.verifyConfirmMessage();
+        Assert.assertTrue(confirmMessage.equalsIgnoreCase("THANKYOU FOR THE ORDER."));
 
     }
 }
