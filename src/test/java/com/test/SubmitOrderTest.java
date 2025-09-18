@@ -12,9 +12,8 @@ public class SubmitOrderTest extends BaseTest {
 
     @Test
     public void submitOrder() throws Exception {
-        // Ensure driver is initialized
 
-        LandingPage lp = launchApplication();
+
         ProductCataloge pc = lp.loginApplication("dhirajbhosale2730@gmail.com", "Dhiraj123");
 
         List<WebElement> products = pc.getProductList();
@@ -31,6 +30,13 @@ public class SubmitOrderTest extends BaseTest {
         String confirmMessage = confirmationPage.verifyConfirmMessage();
         Assert.assertTrue(confirmMessage.equalsIgnoreCase("THANKYOU FOR THE ORDER."));
 
-        driver.quit(); // Clean up
     }
-}
+
+    @Test(dependsOnMethods = {"submitOrder"})
+    public void OrderHistoryTest() throws Exception {
+
+        ProductCataloge pc = lp.loginApplication("dhirajbhosale2730@gmail.com", "Dhiraj123");
+        OrderPage op = pc.goToOrderPage();
+        Assert.assertTrue(op.verifyOrderDisplay(productName));
+    }
+    }

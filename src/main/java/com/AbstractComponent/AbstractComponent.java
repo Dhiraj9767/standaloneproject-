@@ -1,6 +1,7 @@
 package com.AbstractComponent;
 
 import com.pom.CartPage;
+import com.pom.OrderPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -23,9 +24,17 @@ public class AbstractComponent {
     @FindBy(css = "[routerlink*='cart']")
     WebElement cartBttn;
 
+    @FindBy(xpath = "//button[contains(@routerlink,'myorders')]")
+    WebElement orderBttn;
+
     public void waitForElementToAppear(By findBy) {
         WebDriverWait wt = new WebDriverWait(driver, Duration.ofSeconds(5));
         wt.until(ExpectedConditions.visibilityOfElementLocated(findBy));
+    }
+
+    public void waitForWebElementToAppear(WebElement findBy) {
+        WebDriverWait wt = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wt.until(ExpectedConditions.visibilityOf(findBy));
     }
 
     public void waitForElementToDisappear(WebElement ele) {
@@ -39,5 +48,12 @@ public class AbstractComponent {
         cartBttn.click();
         CartPage cartPage = new CartPage(driver);
         return cartPage;
+    }
+
+    public OrderPage goToOrderPage() {
+        orderBttn.click();
+        OrderPage op = new OrderPage(driver);
+        return op;
+
     }
 }

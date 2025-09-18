@@ -9,9 +9,12 @@ import com.pom.LandingPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 
 public class BaseTest {
     public WebDriver driver;
+    public LandingPage lp;
 
     public WebDriver initilizeDriver() throws IOException {
         Properties prop = new Properties();
@@ -34,11 +37,17 @@ public class BaseTest {
 
         return driver;
     }
-
+    @BeforeMethod
     public LandingPage launchApplication() throws IOException {
         driver = initilizeDriver();
-        LandingPage lp = new LandingPage(driver);
+        lp = new LandingPage(driver);
         lp.goTo();
         return lp;
+    }
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }
